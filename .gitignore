@@ -1,0 +1,15 @@
+.venv*
+venv/
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.egg-info/
+.dist-info/
+.DS_Store
+.vscode/
+.env
+data/
+*.pdf
+*.docx
+*.xlsx
