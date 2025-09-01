@@ -13,3 +13,6 @@ data/
 *.pdf
 *.docx
 *.xlsx
+.env
+.env.*
+*.env
