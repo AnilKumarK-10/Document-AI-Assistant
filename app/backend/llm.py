@@ -22,34 +22,31 @@ _SYSTEM_PROMPT = (
 
 
 def ask_llm(
-    messages: List[Dict[str, str]],
-    model: str = "GPT-5 nano",
+    messages: list[dict[str, str]],
+    model: str = "gpt-4o-mini",
     max_tokens: int = 512,
     temperature: float = 1.0,
 ) -> str:
     """
     Send a chat-completion request and return the assistant’s reply.
-
-    For o4-mini: uses `max_completion_tokens`.
-    For other models: uses `max_tokens` + `temperature`.
+    Uses max_tokens (supported by gpt-4o-mini and earlier models).
     """
-    payload: Dict[str, object] = {
+    payload: dict[str, object] = {
         "model": model,
         "messages": [{"role": "system", "content": _SYSTEM_PROMPT}] + messages,
+        "max_tokens": max_tokens,
+        "temperature": temperature,
     }
-    if model == "o4-mini":
-        payload["max_completion_tokens"] = max_tokens
-    else:
-        payload["max_tokens"] = max_tokens
-        payload["temperature"] = temperature
 
     resp = _client.chat.completions.create(**payload)
     return resp.choices[0].message.content.strip()
 
 
+
+
 def summarize_llm(
     text: str,
-    model: str = "GPT-5 nano",
+    model: str = "gpt-4o-mini",
     max_tokens: int = 150,
     temperature: float = 1.0,
 ) -> str:

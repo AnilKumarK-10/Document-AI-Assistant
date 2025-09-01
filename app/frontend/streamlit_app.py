@@ -3,16 +3,12 @@
 import os, sys
 from pathlib import Path
 from typing import List
-
 import streamlit as st
-
-
 os.environ["TOKENIZERS_PARALLELISM"] = "false"
 
 
 HERE = Path(__file__).resolve().parent
 sys.path.insert(0, str(HERE.parent))
-
 
 from backend.pdf_loader import load_contract
 from backend.preprocessor import split_into_chunks
@@ -24,8 +20,7 @@ from backend.llm import ask_llm, summarize_llm
 st.set_page_config(page_title="📄 PDF Summarizer & Q&A", layout="wide")
 st.title("📄 PDF Summarizer & Q&A")
 
-
-MODEL = "gpt-5 nano" 
+MODEL = "gpt-4o-mini" 
 TOP_K = 5  # how many chunks to fetch for context
 
 # Upload PDF & extract text
@@ -55,7 +50,7 @@ def _on_summarize():
     text = st.session_state.full_text
     snippet = text[:3000] + ("\n\n…(truncated)…" if len(text) > 3000 else "")
     try:
-        # GPT-4 uses max_tokens, not max_completion_tokens
+        # GPT-5 uses max_tokens, not max_completion_tokens
         st.session_state.summary = summarize_llm(
             text=snippet, model=MODEL, max_tokens=300
         )
